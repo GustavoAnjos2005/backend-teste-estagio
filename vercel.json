@@ -1,15 +1,30 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "backend-proxy/server.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "(.*)",
-            "dest": "backend-proxy/server.js"
-        }
-    ]
+	"version": 2,
+	"builds": [
+		{
+			"src": "backend-proxy/server.js",
+			"use": "@vercel/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "(.*)",
+			"dest": "backend-proxy/server.js"
+		}
+	],
+
+	"headers": [
+		{
+			"source": "/api/(.*)",
+			"headers": [
+				{
+					"key": "Access-Control-Allow-Origin",
+					"value": "https://gustavoanjos2005.github.io"
+				},
+				{ "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS" },
+				{ "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+			]
+		}
+	],
+	"rewrites": [{ "source": "/api/products", "destination": "/api/products" }]
 }
