@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "backend-proxy/server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "(.*)",
+            "dest": "backend-proxy/server.js"
+        }
+    ]
+}
