@@ -5,7 +5,14 @@ import fetch from 'node-fetch';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// Configurações de CORS para permitir apenas seu frontend no GitHub Pages
+const corsOptions = {
+  origin: 'https://gustavoanjos2005.github.io', // Permitir apenas o frontend do GitHub Pages
+  methods: 'GET', // Permitir apenas requisições GET
+  optionsSuccessStatus: 200 // Para compatibilidade com alguns navegadores mais antigos
+};
+
+app.use(cors(corsOptions));
 
 // Rota raiz
 app.get('/', (req, res) => {
@@ -19,7 +26,10 @@ app.get('/health', (req, res) => {
 
 // Rota para buscar produtos
 app.get('/api/products', async (req, res) => {
+  // Adicionando manualmente o header CORS para garantir
+  res.setHeader('Access-Control-Allow-Origin', 'https://gustavoanjos2005.github.io');
   try {
+    // Corrigindo qualquer possível barra dupla na URL
     const response = await fetch('https://app.econverse.com.br/teste-front-end/junior/tecnologia/lista-produtos/produtos.json');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,6 +42,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+// Inicializando o servidor
 app.listen(PORT, () => {
   console.log(`Servidor backend rodando na porta ${PORT}`);
 });
